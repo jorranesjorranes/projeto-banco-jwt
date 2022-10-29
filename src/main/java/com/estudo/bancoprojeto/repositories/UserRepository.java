@@ -11,5 +11,8 @@ import com.estudo.bancoprojeto.models.UserModel;
 @Repository
 public interface UserRepository extends JpaRepository<UserModel, UUID> {
 
+	Optional<UserModel> findById(UUID id);
     Optional<UserModel> findByUsername(String username);
+    
+    
 }

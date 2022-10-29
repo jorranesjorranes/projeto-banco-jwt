@@ -1,12 +1,10 @@
 package com.estudo.bancoprojeto.controllers;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
-import org.springframework.data.web.PageableDefault;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -29,51 +27,45 @@ import com.estudo.bancoprojeto.services.UserService;
 @RequestMapping("/user")
 public class UserController {
 
-    private final UserRepository userRepository;
-    private final PasswordEncoder passwordEncoder;
-    private final UserService userService;
+	@Autowired
+    private UserRepository userRepository;
+	
+	@Autowired
+    private PasswordEncoder passwordEncoder;
     
-    public UserController(UserRepository userRepository, PasswordEncoder passwordEncoder, UserService userService) {
-        this.userRepository = userRepository;
-        this.passwordEncoder = passwordEncoder;
-    	this.userService = userService;
-    }
+	@Autowired
+	private UserService userService;
 
-//  @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @GetMapping("/listarTodos")
+    public ResponseEntity<List<UserModel>> listarTodos() {
+        return ResponseEntity.ok(userRepository.findAll());
+    }
+    
     @PostMapping("/salvar")
     public ResponseEntity<UserModel> salvar(@RequestBody UserModel userModel) {
         userModel.setPassword(passwordEncoder.encode(userModel.getPassword()));
         return ResponseEntity.ok(userRepository.save(userModel));
     }
-
-//  @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_USER')")
-    @GetMapping("/listarTodos")
-    public ResponseEntity<Page<UserModel>> getAllUsers(@PageableDefault(page = 0, size = 10, sort = "userId", direction = Sort.Direction.ASC) Pageable pageable){
-        return ResponseEntity.status(HttpStatus.OK).body(userService.findAll(pageable));
-    }
-
-//  @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_USER')")
-    @GetMapping("/{userId}")
-    public ResponseEntity<Object> getOneParkingSpot(@PathVariable(value = "userId") UUID userId){
-        Optional<UserModel> parkingSpotModelOptional = userService.findById(userId);
-        if (!parkingSpotModelOptional.isPresent()) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User not found.");
-        }
-        return ResponseEntity.status(HttpStatus.OK).body(parkingSpotModelOptional.get());
-    }
     
-//   @PreAuthorize("hasRole('ROLE_ADMIN')")
-    @DeleteMapping(value = "/{userId}")
-	public ResponseEntity<Void> delete(@PathVariable UUID userId) {
-		userService.delete(userId);
-		return ResponseEntity.noContent().build();
-	}
-
-//   @PreAuthorize("hasRole('ROLE_ADMIN')")
-    @PutMapping(value = "/{userId}")
+//    @DeleteMapping(value = "/{userId}")
+//	public ResponseEntity<Void> delete(@PathVariable UUID userId) {
+//		userService.delete(userId);
+//		return ResponseEntity.noContent().build();
+//	}
+    
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Object> deleteUser(@PathVariable(value = "id") UUID id){
+        Optional<UserModel> userModelOptional = Optional.of(userService.findById(id));
+        if (!userModelOptional.isPresent()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("user not found.");
+        }
+        userService.delete(userModelOptional.get());
+        return ResponseEntity.status(HttpStatus.OK).body("user deleted successfully.");
+    }
+	
+	@PutMapping(value = "/{userId}")
 	public ResponseEntity<UserModel> update(@PathVariable UUID userId, @RequestBody UserModel obj) {
 		obj = userService.update(userId, obj);
 		return ResponseEntity.ok().body(obj);
 	}
-
 }
