@@ -21,7 +21,8 @@ Rode o programa uma vez;
 No console a senha que você colocou na String, ou a senha padrão que você deixou, mesmo, aparecerá encriptada;
 Copie-a;
 Stoppe o programa;
-Utilizando o MySQL workbench, ou outra interface para o MySQL, ou mesmo através do terminal, insira os dados de administrador ou de user, através de Linguagem MySQL, ou clicando nos campos da interface, no campo de password cole a senha encriptada;
+Utilizando o MySQL workbench, ou outra interface para o MySQL, ou mesmo através do terminal, insira os dados de administrador ou de user, através de Linguagem MySQL, ou clicando nos campos da interface.<br> 
+No campo de password cole a senha encriptada;<br>
 Modelo:
 "
 insert into tb_user values("id", "senhaEncriptada", "email", "saldo", "nomeDeUsuarioAdministrador");
