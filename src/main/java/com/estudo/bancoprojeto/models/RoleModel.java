@@ -1,8 +1,6 @@
 package com.estudo.bancoprojeto.models;
 
-
 import java.io.Serializable;
-import java.util.UUID;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -18,15 +16,16 @@ import org.springframework.security.core.GrantedAuthority;
 import com.estudo.bancoprojeto.enums.RoleName;
 
 @Entity
-@Table(name = "TB_ROLE")
+@Table(name = "tb_role")
 public class RoleModel implements GrantedAuthority, Serializable {
     private static final long serialVersionUID = 1L;
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private UUID roleId;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer roleId;
+    
     @Enumerated(EnumType.STRING)
-    @Column(nullable = false, unique = true)
+    @Column(unique = true)
     private RoleName roleName;
 
 
@@ -35,11 +34,11 @@ public class RoleModel implements GrantedAuthority, Serializable {
         return this.roleName.toString();
     }
 
-    public UUID getRoleId() {
+    public Integer getRoleId() {
         return roleId;
     }
 
-    public void setRoleId(UUID roleId) {
+    public void setRoleId(Integer roleId) {
         this.roleId = roleId;
     }
 

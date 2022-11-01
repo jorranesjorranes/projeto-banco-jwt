@@ -5,11 +5,10 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.estudo.bancoprojeto.models.UserModel;
 import com.estudo.bancoprojeto.repositories.UserRepository;
-
-import javax.transaction.Transactional;
 
 @Service
 @Transactional

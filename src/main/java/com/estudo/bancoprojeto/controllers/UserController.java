@@ -1,11 +1,8 @@
 package com.estudo.bancoprojeto.controllers;
 
 import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -41,31 +38,36 @@ public class UserController {
         return ResponseEntity.ok(userRepository.findAll());
     }
     
+    @GetMapping("/{id}")
+    public ResponseEntity<Object> listarUm(@PathVariable(value = "id") Integer id){
+        return ResponseEntity.ok(userRepository.findById(id));
+    }
+    
     @PostMapping("/salvar")
     public ResponseEntity<UserModel> salvar(@RequestBody UserModel userModel) {
         userModel.setPassword(passwordEncoder.encode(userModel.getPassword()));
         return ResponseEntity.ok(userRepository.save(userModel));
     }
     
-//    @DeleteMapping(value = "/{userId}")
-//	public ResponseEntity<Void> delete(@PathVariable UUID userId) {
-//		userService.delete(userId);
-//		return ResponseEntity.noContent().build();
-//	}
+    @DeleteMapping(value = "/{id}")
+	public ResponseEntity<Void> delete(@PathVariable Integer id) {
+		userService.delete(id);
+		return ResponseEntity.noContent().build();
+	}
     
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Object> deleteUser(@PathVariable(value = "id") UUID id){
-        Optional<UserModel> userModelOptional = Optional.of(userService.findById(id));
-        if (!userModelOptional.isPresent()) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("user not found.");
-        }
-        userService.delete(userModelOptional.get());
-        return ResponseEntity.status(HttpStatus.OK).body("user deleted successfully.");
-    }
+//    @DeleteMapping("/{userId}")
+//    public ResponseEntity<Object> deleteUser(@PathVariable(value = "userId") UUID userId){
+//        Optional<UserModel> userModelOptional = Optional.of(userService.findById(userId));
+//        if (!userModelOptional.isPresent()) {
+//            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("user not found.");
+//        }
+//        userService.delete(userModelOptional.get());
+//        return ResponseEntity.status(HttpStatus.OK).body("user deleted successfully.");
+//    }
 	
-	@PutMapping(value = "/{userId}")
-	public ResponseEntity<UserModel> update(@PathVariable UUID userId, @RequestBody UserModel obj) {
-		obj = userService.update(userId, obj);
+	@PutMapping(value = "/{id}")
+	public ResponseEntity<UserModel> update(@PathVariable Integer id, @RequestBody UserModel obj) {
+		obj = userService.update(id, obj);
 		return ResponseEntity.ok().body(obj);
 	}
 }
