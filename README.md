@@ -8,7 +8,6 @@ Configurações iniciais:<br>
 <P>
 
 Entre no arquivo.properties do projeto, que está dentro da pasta "src/main/resources", pasta essa que está abaixo de "src/main/java";<br>
-O arquivo.properties estará abaixo da pasta static e, embaixo também, da pasta templates, entitulado de "application.properties";<br>
 
 <P>
 
