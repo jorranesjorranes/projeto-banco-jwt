@@ -30,7 +30,7 @@ public class UserService {
 		return obj.orElseThrow(() -> new ResourceNotFoundException(id));
 	}
 	
-    public UserModel insert(UserModel obj) {
+    public UserModel salvar(UserModel obj) {
 		return userRepository.save(obj);
 	}	
     
@@ -43,11 +43,6 @@ public class UserService {
 			throw new DatabaseException(e.getMessage());
 		}
 	}
-    
-//    @Transactional
-//    public void delete(UserModel userModel) {
-//        userRepository.delete(userModel);
-//    }
 	
 	public UserModel update(Integer id, UserModel obj) {
 		try {
@@ -63,6 +58,8 @@ public class UserService {
 		entity.setId(obj.getId());
 		entity.setUsername(obj.getUsername());
 		entity.setPassword(obj.getPassword());
+		entity.setEmail(obj.getEmail());
+		entity.setSaldo(obj.getSaldo());
 	}
 	
 }

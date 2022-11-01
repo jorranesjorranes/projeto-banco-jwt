@@ -1,4 +1,4 @@
-package com.estudo.bancoprojeto.configs.security;
+package com.estudo.bancoprojeto.configs;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

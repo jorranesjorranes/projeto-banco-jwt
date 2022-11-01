@@ -29,8 +29,11 @@ public class UserModel implements UserDetails, Serializable {
     @Column(unique = true)
     private String username;
     
-    @Column
     private String password;
+    
+    private String email;
+    
+    private Double saldo;
     
     @ManyToMany
     @JoinTable(name = "tb_users_roles",
@@ -38,8 +41,7 @@ public class UserModel implements UserDetails, Serializable {
             inverseJoinColumns = @JoinColumn(name = "role_id"))
     private List<RoleModel> roles;
 
-
-    @Override
+	@Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return this.roles;
     }
@@ -89,4 +91,22 @@ public class UserModel implements UserDetails, Serializable {
     public void setPassword(String password) {
         this.password = password;
     }
+
+
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
+    
+	public Double getSaldo() {
+		return saldo;
+	}
+	
+	public void setSaldo(Double saldo) {
+		this.saldo = saldo;
+	}
+	
 }

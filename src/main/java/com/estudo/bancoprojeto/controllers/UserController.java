@@ -49,25 +49,16 @@ public class UserController {
         return ResponseEntity.ok(userRepository.save(userModel));
     }
     
+    @PutMapping(value = "/{id}")
+    public ResponseEntity<UserModel> update(@PathVariable Integer id, @RequestBody UserModel obj) {
+    	obj = userService.update(id, obj);
+    	return ResponseEntity.ok().body(obj);
+    }
+    
     @DeleteMapping(value = "/{id}")
 	public ResponseEntity<Void> delete(@PathVariable Integer id) {
 		userService.delete(id);
 		return ResponseEntity.noContent().build();
 	}
-    
-//    @DeleteMapping("/{userId}")
-//    public ResponseEntity<Object> deleteUser(@PathVariable(value = "userId") UUID userId){
-//        Optional<UserModel> userModelOptional = Optional.of(userService.findById(userId));
-//        if (!userModelOptional.isPresent()) {
-//            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("user not found.");
-//        }
-//        userService.delete(userModelOptional.get());
-//        return ResponseEntity.status(HttpStatus.OK).body("user deleted successfully.");
-//    }
 	
-	@PutMapping(value = "/{id}")
-	public ResponseEntity<UserModel> update(@PathVariable Integer id, @RequestBody UserModel obj) {
-		obj = userService.update(id, obj);
-		return ResponseEntity.ok().body(obj);
-	}
 }

@@ -1,4 +1,4 @@
-package com.estudo.bancoprojeto.configs.security;
+package com.estudo.bancoprojeto.configs;
 
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
